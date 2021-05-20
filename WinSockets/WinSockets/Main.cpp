@@ -96,6 +96,8 @@ int main()
     }
 
     closesocket(clientSocket);
+
+    closesocket(listenSocket);
     WSACleanup();
 
     return 0;
