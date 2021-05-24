@@ -30,7 +30,7 @@ int main()
     //инициализация структуры, для указания ip адреса и порта который мы будем слушать
     sockaddr_in addr;
     addr.sin_family = AF_INET;    
-    inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr);
+    inet_pton(AF_INET, "10.3.1.4", &addr.sin_addr);
     addr.sin_port = htons(27015);
    
     //3. Привязываем к ip адресу и порту
