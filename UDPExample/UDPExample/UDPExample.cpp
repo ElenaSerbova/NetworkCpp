@@ -50,7 +50,13 @@ int main()
     }
 
     receiveBuf[bytesReceived] = '\0';
-    cout << "Received from " << senderAddr.sin_addr.s_host << endl;
+
+	char ipfrom[100];
+	inet_ntop(AF_INET, &senderAddr.sin_addr, ipfrom, 100);
+
+    cout << "Received from " << ipfrom 
+		<< " : " << senderAddr.sin_port << endl;
+
     cout << "Data: " << receiveBuf << endl;
 
 
