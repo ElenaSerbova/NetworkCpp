@@ -26,7 +26,7 @@ int main()
     sockaddr_in addr;
     addr.sin_family = AF_INET;    
     addr.sin_port = htons(23000);   
-    inet_pton(AF_INET, "10.3.1.4", &addr.sin_addr.s_addr);
+    addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
     if (bind(udpSocket, (SOCKADDR*)&addr, sizeof(addr)) != NO_ERROR)
     {
@@ -34,6 +34,19 @@ int main()
         return 3;
     }
 
+    //multicast
+    char groupIp[255] = "235.0.0.0";
+
+    ip_mreq mreq;
+    inet_pton(AF_INET, groupIp, &mreq.imr_multiaddr.s_addr);
+    mreq.imr_interface.s_addr = htonl(INADDR_ANY);
+    
+    if (setsockopt(udpSocket, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char*)&mreq, sizeof(mreq)) != NO_ERROR)
+    {
+        cout << "setsockopt failed with error " << WSAGetLastError() << endl;
+        return 3;
+    }
+     //
     const size_t receiveBufSize = 1024;
     char receiveBuf[receiveBufSize];
 
@@ -51,12 +64,9 @@ int main()
 
     receiveBuf[bytesReceived] = '\0';
 
-	char ipfrom[100];
-	inet_ntop(AF_INET, &senderAddr.sin_addr, ipfrom, 100);
-
-    cout << "Received from " << ipfrom 
-		<< " : " << senderAddr.sin_port << endl;
-
+    char ipfrom[100];
+    inet_ntop(AF_INET, &senderAddr.sin_addr, ipfrom, 100);
+    cout << "Received from " << ipfrom << endl;    
     cout << "Data: " << receiveBuf << endl;
 
 
