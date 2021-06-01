@@ -26,8 +26,7 @@ int main()
     sockaddr_in addrTo;
     addrTo.sin_family = AF_INET;
     addrTo.sin_port = htons(23000);
-    inet_pton(AF_INET, "10.3.1.255", &addrTo.sin_addr.s_addr);
-	
+    inet_pton(AF_INET, "235.0.0.0", &addrTo.sin_addr.s_addr);
 
     const size_t sendBufSize = 1024;
     char sendBuf[sendBufSize] = "Hello from UDPClient";
@@ -56,10 +55,7 @@ int main()
     }
 
     receiveBuf[bytesReceived] = '\0';
-
-	char ipfrom[100];
-	inet_ntop(AF_INET, &addrFrom.sin_addr, ipfrom, 100);
-    cout << "Received from " << ipfrom << endl;
+    cout << "Received from " << addrFrom.sin_addr.s_host << endl;
     cout << "Data: " << receiveBuf << endl;
 
     closesocket(udpSocket);
