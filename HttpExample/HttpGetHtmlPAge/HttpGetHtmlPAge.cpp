@@ -22,7 +22,7 @@ int main()
 
     //инициализация структуры, для указания ip адреса и порта сервера с которым мы хотим соединиться
 
-    char hostname[255] = "old-dos.ru";
+    char hostname[255] = "scratchpads.org";
 
     addrinfo* result = NULL;
 
@@ -66,7 +66,7 @@ int main()
 
     //4. HTTP Request
 
-    string uri = "/";
+    string uri = "/explore/sites-list";
 
     string request = "GET " + uri + " HTTP/1.1\n";
     request += "Host: " + string(hostname) + "\n";
